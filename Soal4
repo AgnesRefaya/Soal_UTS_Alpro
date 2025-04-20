@@ -94,5 +94,5 @@ Program ini memiliki alur penyelesaian (Algoritma) sebagai berikut.
       * Jika jumlah poin B lebih besar dari jumlah poin A (poin_B > poin_A), program menampilkan "Pemenangnya adalah pemain B."
       * Jika kondisi-kondisi sebelumnya tidak terpenuhi, ini menandakan pertandingan berakhir seri sehingga 
         program menampilkan "Hasil pertandingan seri!"
-    Kemudian, program akan berhenti. */
+    Kemudian, program akan berhenti.*/
 }  
