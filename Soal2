@@ -1,1 +1,179 @@
-//Kerjakan soal nomor 2 disini (Hapus komentar ini)
+#include <iostream>
+using namespace std;
+
+int main() {
+    string tipe_kendaraan;
+    unsigned long long i, kode_parkir, waktu_keluar, temp, banyak_digit, digit_depan, digit_710, digitmasuk_56, digitmasuk_34, digitkeluar_12, digitkeluar_34, detik_masuk, detik_keluar, lama_parkir, lama_parkir_jam, lama_parkir_menit, biaya;
+    
+    cout << "Program Parkir Digital" << endl << endl;
+    cout << "Masukkan kode parkir digital (10 digit): ";
+    cin >> kode_parkir;
+    cout << "Masukkan waktu keluar (format HHMM)    : ";
+    cin >> waktu_keluar;
+    
+    temp = kode_parkir;
+    banyak_digit = 0;
+    while (temp >= 100) {
+        banyak_digit++;
+        temp /= 10;
+    }
+    digit_depan = temp;
+    banyak_digit +=2;
+    
+    
+    if (banyak_digit == 10 && digit_depan == 10)
+    tipe_kendaraan = "Mobil pribadi";
+    else if (banyak_digit == 10 && digit_depan == 20)
+    tipe_kendaraan = "Motor";
+    else if (banyak_digit == 10 && digit_depan == 30)
+    tipe_kendaraan = "Bus";
+    else {
+        cout << "Input kode parkir tidak valid.";
+        return 1;
+    }
+
+    digit_710 = kode_parkir % 10000;
+    digitmasuk_56 = (kode_parkir / 10000) % 100;
+    digitmasuk_34 = (kode_parkir / 1000000) % 100;
+
+    digitkeluar_12 =  waktu_keluar / 100;
+    digitkeluar_34 =  waktu_keluar % 100;
+    
+    if ((digitmasuk_34 < 0 || digitmasuk_34 > 23) || (digitmasuk_56 < 0 || digitmasuk_56 > 59)) {
+        cout << "Input kode parkir salah, waktu masuk tidak valid.";
+        return 1;
+    }
+    if ((digitkeluar_12 < 0 || digitkeluar_12 > 23) || (digitkeluar_34 < 0 || digitkeluar_34 > 59)) {
+        cout << "Input waktu keluar salah, format waktu jam adalah 0 - 23 dan menit adalah 0 - 59.";
+        return 1;
+    }
+
+    detik_masuk = digitmasuk_34 * 3600 + digitmasuk_56 * 60;
+    detik_keluar = digitkeluar_12 * 3600 + digitkeluar_34 * 60;
+    lama_parkir = detik_keluar - detik_masuk;
+    lama_parkir_jam = (lama_parkir + 3599) / 3600;
+
+    if (lama_parkir > 3600) {
+        if (tipe_kendaraan == "Mobil pribadi") {
+            if(lama_parkir_jam == 1)
+            biaya = 5000 + 3000;
+            else
+            biaya = 5000 + (lama_parkir_jam - 1) * 3000;
+        }
+        else if (tipe_kendaraan == "Motor") {
+            if(lama_parkir_jam == 1)
+            biaya = 3000 + 2000;
+            else
+            biaya = 3000 + (lama_parkir_jam - 1) * 2000;
+        }
+        else {
+            if(lama_parkir_jam == 1)
+            biaya = 10000 + 7000;
+            else
+            biaya = 10000 + (lama_parkir_jam - 1) * 7000;
+        }
+    }
+    else {
+        if (tipe_kendaraan == "Mobil pribadi") 
+            biaya = 5000;
+        else if (tipe_kendaraan == "Motor") 
+            biaya = 3000;
+        else
+            biaya = 10000;
+        }
+        
+    cout << "--- Ringkasan Parkir ---" << endl;
+    cout << "Jenis kendaraan : " << tipe_kendaraan << endl;
+    cout << "Waktu masuk     : " << digitmasuk_34 << ":" << digitmasuk_56 << endl;
+    cout << "Waktu keluar    : " << digitkeluar_12 << ":" << digitkeluar_34 << endl;
+    cout << "Durasi parkir   : " << lama_parkir_jam << " jam " << endl;
+    cout << "Lokasi parkir   : " << digit_710 << endl;
+    cout << "Total biaya     : Rp" << biaya << endl;
+    return 0;
+
+/*Penjelasan Algoritma serta Logika Penyelesaian Masalah
+
+Program ini memiliki alur penyelesaian (Algoritma) sebagai berikut.
+1. Program akan terlebih dahulu meminta input pengguna yang berupa kode parkir digital dan menyimpannya pada variabel "kode_parkir".
+
+2. Program kemudian meminta input pengguna yang berupa waktu keluar dan menyimpannya pada variabel "waktu_keluar".
+
+3. Proses penghitungan banyak digit dari nomor kartu yang dimasukkan serta dua digit paling depan akan dilakukan dengan langkah, yaitu:
+   - Inisialisasi variabel "temp" dengan nilai dari variabel "kode_parkir" dan "banyak_digit" dengan nilai 0.
+   - Penyimpanan variabel kode_parkir pada variabel temp ditujukan untuk mencegah perubahan angka pada variabel kode_parkir yang akan digunakan utuk proses selanjutnya.
+   - Struktur perulangan while akan dimulai ketika temp bernilai lebih dari atau sama dengan 100, lalu variabel "banyak_digit" akan ditambah 1 selama perulangan dan temp akan dibagi dengan 10 selama perulangan.
+      * Syarat perulangan temp >= 100 digunakan karena bila jumlah digit dari kode parkir yang diinput sebanyak 10 digit, proses pembagian dengan 10 pada temp dalam struktur perulangan akan menyisakan dua digit paling depan di akhir. 
+      * Pembagian dengan 10 dilakukan karena notasi angka yang digunakan adalah desimal (0 -9) sehingga jika temp masih dapat dibagi 10, ini menunjukkan terdapat digit yang tersisa
+        dan akan ditambahkan pada variabel banyak digit sehingga banyak digit diperoleh.
+  - varibel temp yang menyisakan 2 digit paling depan setelah perulangan akan disimpan pada variabel "digit_depan".
+  - banyak digit akan ditambah dengan 2 setelah perulangan karena proses perulangan sebelumnya ditujukan untuk menyisakan 2 digit paling depan sehingga banyak digit asli akan sama dengan banyak digit setelah perulangan ditambah 2. 
+
+3. Proses seleksi untuk menentukan apakah kode_parkir valid dilakukan dengan struktur percabangan dengan syarat: 
+  - Jika banyaknya digit = 10 dan 2 digit pertama = 10, variabel "tipe_kendaraaan" akan disimpan sebagai "Mobil pribadi". 
+  - Jika banyaknya digit = 10 dan 2 digit pertama = 20, variabel "tipe_kendaraaan" akan disimpan sebagai "Motor".
+  - Jika banyaknya digit = 10 dan 2 digit pertama = 10, variabel "tipe_kendaraaan" akan disimpan sebagai "Bus". 
+  - Jika satu pun syarat tidak terpenuhi, program akan menampilkan "Input kode parkir tidak valid." lalu menghentikan program. Hal ini menandakan bahwa kode parkir yang diinput tidak sesuai dengan syarat 10 digit atau 2 digit depan tidak sesuai dengan tipe kendaraan mana pun. 
+
+4. Lokasi parkir akan diperoleh dengan menghitung sisa bagi dari variabel kode_parkir dengan 10000. 
+   Hasilnya berupa digit ke-7 sampai ke-10 dari variabel kode_parkir yang akan disimpan pada variabel "digit_710". 
+
+5. Menit dari waktu masuk parkir akan diperoleh melalui operasi pembagian kode_parkir dengan 10000 lalu dilakukan operasi mod 100 untuk mendapatkan sisa baginya. 
+   Hasil yang berupa sisa bagi adalah digit ke-5 sampai ke-6 yang dalam aturan merupakan menit dari waktu masuk parkir yang akan disimpan pada variabel "digitmasuk_56". 
+
+6. Jam dari waktu masuk parkir akan diperoleh melalui operasi pembagian kode_parkir dengan 1000000 lalu dilakukan operasi mod 100 untuk mendapatkan sisa baginya. 
+   Hasil yang berupa sisa bagi adalah digit ke-3 sampai ke-4 yang dalam aturan merupakan jam dari waktu masuk parkir yang akan disimpan pada variabel "digitmasuk_34". 
+
+7. Jam dari waktu keluar parkir akan diperoleh melalui operasi pembagian waktu_keluar dengan 100. Dikarenakan tipe data variabel adalah bilangan bulat maka pembagian akan dilakukan dengan pembulatan
+   sehingga hasilnya adalah digit ke-1 sampai ke-2 dari waktu_keluar yang dalam aturan merupakan jam dari waktu keluar parkir yang akan disimpan pada variabel "digitkeluar_12". 
+
+8. Menit dari waktu keluar parkir akan diperoleh melalui operasi modulus antara waktu_keluar dengan 100.
+   Hasil yang berupa sisa bagi adalah digit ke-3 sampai ke-4 dari waktu_keluar yang dalam aturan merupakan menit dari waktu keluar parkir yang akan disimpan pada variabel "digitkeluar_34".
+
+9. Proses seleksi pada jam dan menit dari waktu masuk akan dilakukan dengan syarat:
+   - Jika digitmasuk_34 < 0 atau digitmasuk_34 > 23 atau digitmasuk_56 < 0 atau digitmasuk_56  59, program akan menampilkan "Input kode parkir salah, waktu masuk tidak valid." lalu program akan berhenti. 
+     Hal ini menandakan jam dari waktu masuk tidak sesuai dengan format waktu 24 jam, yaitu 0 - 23, atau menit dari waktu masuk tidak sesuai dengan format waktu 60 menit, yaitu 0 - 59. 
+
+10. Proses seleksi pada jam dan menit dari waktu keluar akan dilakukan dengan syarat:
+   - Jika digitkeluar_12 < 0 atau digitmasuk_12 > 23 atau digitkeluar_34 < 0 atau digitkeluar_34 > 59, program akan menampilkan "Input waktu keluar salah, format waktu jam adalah 0 - 23 dan menit adalah 0 - 59." lalu program akan berhenti. 
+     Hal ini menandakan jam dari waktu keluar tidak sesuai dengan format waktu 24 jam, yaitu 0 - 23, atau menit dari waktu keluar tidak sesuai dengan format waktu 60 menit, yaitu 0 - 59. 
+
+11. Perhitungan jumlah detik dari waktu masuk akan dilakukan dengan persamaan digitmasuk_34 (jam dari waktu masuk) x 3600 + digitmasuk_56 (menit dari waktu masuk) x 60.
+    Hasilnya akan disimpan pada variabel "detik_masuk". 
+
+12. Perhitungan jumlah detik dari waktu keluar akan dilakukan dengan persamaan digitkeluar_12 (jam dari waktu masuk) x 3600 + digitkeluar_34 (menit dari waktu masuk) x 60.
+    Hasilnya akan disimpan pada variabel "detik_keluar". 
+
+13. Durasi parkir dalam satuan detik akan diperoleh dengan mengurangkan jumlah detik dari waktu keluar (detik_keluar) dengan jumlah detik dari waktu masuk (detik_masuk). Hasilnya akan disimpan pada variabel "lama_parkir". 
+
+14. Dikarenakan berdasarkan contoh jika waktu parkir lebih dari perhitungan 1 jam, tetapi masih kurang dari perhitungan 1 jam berikutnya, dilakukan pembulatan ke atas. 
+    Untuk itu dilakukan perhitungan untuk menghitung lama parkir dalam jam melalui persamaan (lama_parkir + 3599) / 3600
+    Melalui operasi ini, jika durasi parkir dalam detik lebih dari perhitungan per 1 jam (3600 detik), penambahan dengan 3599 lalu dibagi dengan 3600 menyebabkan hasil perhitungan jam akan dibulatkan ke 1 jam berikutnya karena tipe data merupakan bilangan bulat. 
+    Namun, jika durasi parkir dalam detik tepat dalam perhitungan per 1 jam (3600 detik), penambahan 3599 tidak akan berpengaruh karena setelah dibagi dengan 3600, hasilnya akan tetap dibulatkan ke bawah karena pembagian dilakukan antara bilangan bulat. 
+
+15. Proses seleksi untuk menentukan lamanya durasi parkir akan dilakukan dengan struktur percabangan dengan syarat:
+    - Jika lama_parkir lebih dari 3600, yang menandakan durasi parkir lebih dari 1 jam, akan dilakukan seleksi lanjutan, yaitu: 
+      * Jika tipe kendaraan adalah "Mobil pribadi", akan dilakukan seleksi lanjutan, yaitu: 
+        ~ jika lama_parkir_jam adalah 1 yang menunjukkan bahwa sudah lewat dari 1 jam, tetapi belum memasuki 1 jam berikutnya, variabel "biaya" akan disimpan sebagai 5000 + 3000. 
+        ~ Selain dari itu, menunjukkan bahwa sudah lewat dari 1 jam pertama sehingga variabel "biaya" akan disimpan sebagai 5000 + (lama_parkir_jam - 1) * 3000. 
+      * Jika tipe kendaraan adalah "Motor", akan dilakukan seleksi lanjutan, yaitu: 
+        ~ jika lama_parkir_jam adalah 1 yang menunjukkan bahwa sudah lewat dari 1 jam, tetapi belum memasuki 1 jam berikutnya, variabel "biaya" akan disimpan sebagai 3000 + 2000. 
+        ~ Selain dari itu, menunjukkan bahwa sudah lewat dari 1 jam pertama sehingga variabel "biaya" akan disimpan sebagai 3000 + (lama_parkir_jam - 1) * 2000. 
+      * Jika tipe kendaraan adalah "Bus", akan dilakukan seleksi lanjutan, yaitu: 
+        ~ jika lama_parkir_jam adalah 1 yang menunjukkan bahwa sudah lewat dari 1 jam, tetapi belum memasuki 1 jam berikutnya, variabel "biaya" akan disimpan sebagai 10000 + 7000. 
+        ~ Selain dari itu, menunjukkan bahwa sudah lewat dari 1 jam pertama sehingga variabel "biaya" akan disimpan sebagai 10000 + (lama_parkir_jam - 1) * 7000. 
+    - Jika syarat sebelumnya tidak terpenuhi, ini menandakan durasi parkir berada dalam cakupan kurang dari atau sama dengan 1 jam sehingga biaya parkir akan sesuai dengan biaya 1 jam pertama. 
+      Untuk itu, dilakukan struktur percabangan untuk menentukan tipe kendaraan, yaitu: 
+      * Jika tipe kendaraan adalah "Mobil pribadi", variabel "biaya" akan disimpan sebagai 5000
+      * Jika tipe kendaraan adalah "Motor", variabel "biaya" akan disimpan sebagai 3000. 
+      * Selain dari itu, tipe kendaraan akan didefinisikan sebagai "Bus", variabel "biaya" akan disimpan sebagai 7000
+
+16. Program kemudian akan menampilkan ringkasan parkir dengan susunan: 
+    - "--- Ringkasan Parkir ---";
+    - "Jenis kendaraan : " lalu memanggil variabel tipe_kendaraan.
+    - "Waktu masuk     : " lalu memanggil variabel digitmasuk_34 dan digitmasuk_56.
+    - "Waktu keluar    : " lalu memanggil variabel digitkeluar_12 dan digitkeluar_34.
+    - "Durasi parkir   : " lalu memanggil variabel lama_parkir_jam.
+    - "Lokasi parkir   : " lalu memanggil variabel digit_710.
+    - "Total biaya     : Rp" lalu memanggil variabel biaya.
+    Kemudian, program akan berhenti.*/
+}
