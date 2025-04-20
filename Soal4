@@ -1,1 +1,98 @@
-//Kerjakan soal nomor 4 disini (Hapus komentar ini)
+#include <iostream>
+using namespace std;
+
+int main() {
+    int jumlah_babak, poin_A, poin_B, i, kemenangan_A, kemenangan_B;
+    char urutan;
+    
+    cout << "Program Pengunguman Hasil Pertandingan" << endl << endl;
+    cout << "Masukkan jumlah babak: ";
+    cin >> jumlah_babak;
+    cout << "Masukkan urutan pemenang (A = Pemain A, B = Pemain B, C = Seri): ";
+
+    poin_A = 0;
+    poin_B = 0;
+    kemenangan_A = 0;
+    kemenangan_B = 0;
+
+    for(i = 1; i <= jumlah_babak; i++) {
+    cin >> urutan;
+
+    if (urutan == 'A') {
+        poin_A += 3;
+        kemenangan_A++;
+        kemenangan_B = 0;
+        if (kemenangan_A == 3){
+            poin_A += 2;
+            kemenangan_A = 0;
+        }
+    }
+    else if (urutan == 'B') {
+        poin_B += 3;
+        kemenangan_B++;
+        kemenangan_A = 0;
+        if (kemenangan_B == 3) {
+            poin_B += 2;
+            kemenangan_B = 0;
+        }
+    }
+    else if (urutan == 'C') {
+        poin_A += 1;
+        poin_B += 1;
+        kemenangan_A = 0;
+        kemenangan_B = 0;
+    }
+    else {
+        cout << "Terdapat karakter yang tidak valid pada input urutan, harap masukkan huruf kapital antara A, B, dan C.";
+        return 1;
+    }
+
+}
+
+    cout << "\nPoin A: " << poin_A << endl;
+    cout << "Poin B: " << poin_B << endl;
+    if (poin_A > poin_B) {
+        cout << "Pemenangnya adalah pemain A." << endl;
+    }
+    else if (poin_B > poin_A) {
+        cout << "Pemenangnya adalah pemain B." << endl;
+    }
+    else {
+        cout << "Hasil pertandingan seri!" << endl;
+    }
+    return 0;
+
+/*Penjelasan Algoritma serta Logika Penyelesaian Masalah
+
+Program ini memiliki alur penyelesaian (Algoritma) sebagai berikut.
+1. Program akan terlebih dahulu meminta input pengguna yang berupa jumlah babak dan menyimpannya dalam variabel "jumlah_babak".
+
+2. Program melakukan inisialisasi nilai poin setiap pemain dan jumlah kemenangan setiap pemain dengan nilai 0.
+   - poin pemain A akan disimpan pada variabel "poin_A" dan jumlah kemenangan pemain A akan disimpan pada variabel "kemenangan_A"
+   - poin pemain B akan disimpan pada variabel "poin_B" dan jumlah kemenangan pemain B akan disimpan pada variabel "kemenangan_B"
+
+3. Program akan menggunakan struktur perulangan for dengan banyaknya perulangan sesuai dengan jumlah_babak untuk menerima input pemenang babak dan menghitung poin masing-masing pemain. 
+   Struktur perulangannya, yaitu:
+   - Program meminta input pengguna yang berupa urutan pemenang dan menyimpannya dalam variabel "urutan". 
+   - Proses seleksi dilakukan untuk menentukan pemenang setiap babak dan tambahan poinnya dengan struktur percabangan: 
+     * Bila urutan = 'A', pemenang dalam babak itu adalah pemain A sehingga jumlah poin pemain A (poin_A) akan ditambah 3 dan nilai kemenangan beruntun pemain A (kemenangan_A) akan ditambah 1. 
+       Kemenangan beruntun untuk pemain B (kemenangan_B) akan diulangi dari 0 karena pemain A memenangkan babak tersebut. 
+        ~ Jika jumlah kemenangan beruntun pemain A (kemenangan_A) = 3 dalam perulangan tersebut, poin pemain A (poin_A) akan ditambah 2 lalu kemenangan_A akan diulangi dari 0. 
+     * Bila urutan = 'B', pemenang dalam babak itu adalah pemain B sehingga jumlah poin pemain B (poin_B) akan ditambah 3 dan nilai kemenangan beruntun pemain B (kemenangan_B) akan ditambah 1. 
+       Kemenangan beruntun untuk pemain B (kemenangan_B) akan diulangi dari 0 karena pemain A memenangkan babak tersebut. 
+        ~ Jika jumlah kemenangan beruntun pemain B (kemenangan_B) = 3 dalam perulangan tersebut, poin pemain B (poin_B) akan ditambah 2 lalu kemenangan_B akan diulangi dari 0.
+     * Bila urutan = 'C', babak tersebut berakhir seri sehingaa baik pemain A maupun pemain B mendapatkan tambahan 1 poin. (poin_A ditambah 1 dan poin_B ditambah 1)
+       Jumlah kemenangan beruntun, baik untuk pemain A (kemenangan_A) maupun pemain B (kemenangan_B) akan diulangi dari 0. 
+     * Bila syarat-syarat sebelumnya tidak terpenuhi, input urutan yang diberikan mengandung karakter yang tidak sesuai dengan 'A', 'B', atau 'C' 
+       sehingga program akan menampilkan "Terdapat karakter yang tidak valid pada input urutan, harap masukkan huruf kapital antara A, B, dan C." lalu menghentikan program. 
+
+6. Setelah perulangan dilakukan, program akan menampilkan hasil pertandingan dengan susunan: 
+    - "Poin A: " lalu memanggil variabel poin_A.
+    - "Poin B: " lalu memanggil variabel poin_B.
+    - Penggunaan struktur percabangan untuk menampilkan pemenang dengan kondisi: 
+      * Jika jumlah poin A lebih besar dari jumlah poin B (poin_A > poin_B), program menampilkan "Pemenangnya adalah pemain A."
+      * Jika jumlah poin B lebih besar dari jumlah poin A (poin_B > poin_A), program menampilkan "Pemenangnya adalah pemain B."
+      * Jika kondisi-kondisi sebelumnya tidak terpenuhi, ini menandakan pertandingan berakhir seri sehingga 
+        program menampilkan "Hasil pertandingan seri!"
+    Kemudian, program akan berhenti. */
+}  
