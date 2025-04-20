@@ -1,1 +1,144 @@
-//Kerjakan soal nomor 3 disini (Hapus komentar ini)
+#include <iostream>
+using namespace std;
+
+int main() {
+    string jenis_hari, jenis_pelanggan;
+    unsigned long long kode_transaksi, temp, banyak_digit, digit_12, digit_34, digit_58, jumlah_belanja, jumlah_poin;
+
+    cout << "Program Pengecekan Kode Transaksi Digital" << endl << endl;
+    cout << "Masukkan kode transaksi (8 digit): ";
+    cin >> kode_transaksi;
+    cout << endl;
+
+    temp = kode_transaksi;
+    banyak_digit = 0;
+    while (temp > 0) {
+        banyak_digit++;
+        temp /= 10;
+    }
+ 
+    if (banyak_digit == 7)
+    banyak_digit++;
+    
+    digit_12 = kode_transaksi / 1000000;
+    digit_34 = (kode_transaksi / 10000) % 100;
+    digit_58 = kode_transaksi % 10000;
+
+    if (banyak_digit == 8 && digit_12 == 1)
+    jenis_hari = "Hari kerja";
+    else if (banyak_digit == 8 && digit_12 == 2)
+    jenis_hari = "Akhir pekan";
+    else if (banyak_digit == 8 && digit_12 == 3)
+    jenis_hari = "Hari libur nasional";
+    else {
+        cout << "Input kode transaksi tidak valid.";
+        return 1;
+    }
+
+    if (digit_34 == 1)
+    jenis_pelanggan = "Biasa";
+    else if (digit_34 == 2)
+    jenis_pelanggan = "Silver";
+    else if (digit_34 == 3)
+    jenis_pelanggan = "Gold";
+    else {
+        cout << "Input kode transaksi tidak valid, kode loyalitas pelanggan tidak sesuai dengan jenis mana pun.";
+        return 1;
+    }
+
+    jumlah_belanja = digit_58 * 100000;
+
+    if (jenis_hari == "Hari kerja") {
+        if (jenis_pelanggan == "Biasa") 
+        jumlah_poin = jumlah_belanja / 100000;
+        else if (jenis_pelanggan == "Silver") 
+        jumlah_poin = (jumlah_belanja / 100000) * 2;
+        else 
+        jumlah_poin = (jumlah_belanja / 100000) * 3;
+    }
+    else if (jenis_hari == "Akhir pekan") {
+        if (jenis_pelanggan == "Biasa") 
+        jumlah_poin = (jumlah_belanja / 100000) * 2;
+        else if (jenis_pelanggan == "Silver") 
+        jumlah_poin = (jumlah_belanja / 100000) * 3;
+        else 
+        jumlah_poin = (jumlah_belanja / 100000) * 5;
+    }
+    else {
+        if (jenis_pelanggan == "Biasa") 
+        jumlah_poin = (jumlah_belanja / 100000) * 3;
+        else if (jenis_pelanggan == "Silver") 
+        jumlah_poin = (jumlah_belanja / 100000) * 5;
+        else 
+        jumlah_poin = (jumlah_belanja / 100000) * 7;
+    }
+
+    cout << "Jenis hari      : " << jenis_hari << endl;
+    cout << "Jenis pelanggan : " << jenis_pelanggan << endl;
+    cout << "Jumlah belanja  : Rp" << jumlah_belanja << endl;
+    cout << "Total poin      : " << jumlah_poin << endl;
+    return 0;
+
+/*Penjelasan Algoritma serta Logika Penyelesaian Masalah
+
+Program ini memiliki alur penyelesaian (Algoritma) sebagai berikut.
+1. Program akan terlebih dahulu meminta input pengguna yang berupa kode transaksi dan menyimpannya pada variabel "kode_transaksi".
+
+2. Proses penghitungan banyak digit dari kode_transaksi yang dimasukkan akan dilakukan dengan langkah, yaitu:
+   - Inisialisasi variabel "temp" dengan nilai dari variabel "kode_transaksi" dan "banyak_digit" dengan nilai 0.
+   - Penyimpanan variabel kode_transaksi pada variabel temp ditujukan untuk mencegah perubahan angka pada variabel kode_transaksi yang akan digunakan utuk proses selanjutnya.
+   - Struktur perulangan while akan dimulai ketika temp bernilai lebih dari 0, lalu variabel "banyak_digit" akan ditambah 1 selama perulangan dan temp akan dibagi dengan 10 selama perulangan.
+      * Syarat perulangan temp >= 100 digunakan karena bila jumlah digit dari kode parkir yang diinput sebanyak 10 digit, proses pembagian dengan 10 pada temp dalam struktur perulangan akan menyisakan dua digit paling depan di akhir. 
+      * Pembagian dengan 10 dilakukan karena notasi angka yang digunakan adalah desimal (0 -9) sehingga jika temp masih dapat dibagi 10, ini menunjukkan terdapat digit yang tersisa
+        dan akan ditambahkan pada variabel banyak_digit sehingga banyak digit dari kode_transaksi akan diperoleh.
+
+3. Program kemudian melakukan pengecekan terhadap jumlah digit dari kode_transaksi dengan kondisi: 
+  - Bila banyak_digit dari kode_transaksi = 7, variabel banyak_digit akan ditambah 1. Penambahan ini dilakukan untuk mengatasi nilai 0 yang berada pada digit paling depan yang menyebabkan 
+    banyak_digit yang tersimpan bila kode_transaksi yang dimasukkan pengguna adalah vaild, digit tetap akan terhitung sebagai 7 digit. Kami belum dapat menemukan tipe data bilangan bulat yang menyimpan 0 sebagai bilangan penting yang terhitung sebagai digit lengkap dan manipulasi string tidak diperbolehkan. 
+    Oleh karena itu, penggunaan struktur seleksi ini diterapkan sebagai cara menanggulangi permasalahan tersebut. 
+  - Bila banyak digit dair kode_transaksi tidak sama dengan 7, instruksi selanjutnya akan dieksekusi. 
+
+4. Proses perhitungan akan dilakukan untuk mendapatkan digit-digit yang terletak pada posisi ke-3 sampai ke-4 dan ke-5 sampai ke-8 melalui persamaan: 
+  - Digit yang terletak pada posisi ke-1 sampai ke-2 diperoleh melalui operasi pembagian kode_transaksi dengan 1000000. 
+    Hasil dari operasi tersebut akan menyisakan digit yang terletak pada posisi ke-1 sampai ke-2 lalu menyimpannya pada variabel "digit_12".
+  - Digit yang terletak pada posisi ke-3 sampai ke-4 diperoleh melalui operasi pembagian kode_transaksi dengan 10000 lalu hasilnya dioperasikan melalui modulus dengan 100. 
+    Hasil dari operasi tersebut akan menyisakan digit yang terletak pada posisi ke-3 sampai ke-4 lalu menyimpannya pada variabel "digit_34". 
+  - Digit yang terletak pada posisi ke-5 sampai ke-8 diperoleh melalui perhitungan sisa bagi antara kode_transaksi dengan 10000. 
+    Hasil sisa bagi tersebut merupakan digit yang terletak pada posisi ke-5 sampai ke-8 lalu menyimpannya pada variabel "digit_58". 
+
+5. Proses seleksi akan dilakukan untuk mengidentifikasi validitas kode_transaksi dan jenis hari dengan syarat:
+   - Jika digit_12 (digit ke-1 sampai digit ke-2) = 1 dan banyak_digit = 8, "Hari kerja" akan disimpan pada variabel "jenis_hari".
+   - Jika digit_12 (digit ke-1 sampai digit ke-2) = 2 dan banyak digit = 8, "Akhir pekan" akan disimpan pada variabel "jenis_hari".
+   - Jika digit_12 (digit ke-1 sampai digit ke-2) = 3 dan banyak digit = 8, "Hari libur nasional" akan disimpan pada variabel "jenis_hari". 
+   - Jika syarat-syarat sebelumnya tidak terpenuhi, program akan menampilkan "Input kode transaksi tidak valid." lalu program akan berhenti. 
+
+6. Proses seleksi kemudian dilakukan untuk mengidentifikasi jenis pelanggan dengan syarat:
+   - Jika digit_34 (digit ke-3 sampai digit ke-4) = 1, "Biasa" akan disimpan pada variabel "jenis_pelanggan".
+   - Jika digit_34 (digit ke-3 sampai digit ke-4) = 2, "Silver" akan disimpan pada variabel "jenis_pelanggan".
+   - Jika digit_34 (digit ke-3 sampai digit ke-4) = 3, "Gold" akan disimpan pada variabel "jenis_pelanggan". 
+   - Jika syarat-syarat sebelumnya tidak terpenuhi, program akan menampilkan "Input kode transaksi tidak valid, kode loyalitas pelanggan tidak sesuai dengan jenis mana pun." lalu program akan berhenti. 
+
+6. Program akan menghitung jumlah belanja pelanggan dengan persamaan digit_58 (representasi dari jumlah belanja dengan kelipatan Rp100.000) dikali dengan 100000
+   Hasilnya akan disimpan pada variabel "jumlah_belanja". 
+
+7. Proses seleksi untuk menentukan banyaknya jumlah poin yang diperoleh pada transaksi dilakukan dengan struktur percabangan sebagai berikut.
+   - Jika jenis_hari = "Hari kerja", dilakukan seleksi lanjutan, yaitu:
+     * Jika jenis_pelanggan = "Biasa", variabel "jumlah_poin" akan disimpan sebagai hasil dari jumlah_belanja / 100000.
+     * Jika jenis_pelanggan = "Silver", variabel "jumlah_poin" akan disimpan sebagai hasil dari (jumlah_belanja / 100000) dikali 2. 
+     * Selain dari itu, jenis_pelanggan akan didefinisikan sebagai "Gold", variabel "jumlah_poin" akan disimpan sebagai hasil dari (jumlah_belanja / 100000) dikali 3.
+   - Jika jenis_hari = "Akhir pekan", dilakukan seleksi lanjutan, yaitu:
+     * Jika jenis_pelanggan = "Biasa", variabel "jumlah_poin" akan disimpan sebagai hasil dari jumlah_belanja / 100000 dikali 2.
+     * Jika jenis_pelanggan = "Silver", variabel "jumlah_poin" akan disimpan sebagai hasil dari (jumlah_belanja / 100000) dikali 3. 
+     * Selain dari itu, jenis_pelanggan akan didefinisikan sebagai "Gold", variabel "jumlah_poin" akan disimpan sebagai hasil dari (jumlah_belanja / 100000) dikali 5.
+   - Selain dari itu, jenis_hari akan didefinisikan sebagai"Hari kerja", dilakukan seleksi lanjutan, yaitu:
+     * Jika jenis_pelanggan = "Biasa", variabel "jumlah_poin" akan disimpan sebagai hasil dari jumlah_belanja / 100000 dikali 3.
+     * Jika jenis_pelanggan = "Silver", variabel "jumlah_poin" akan disimpan sebagai hasil dari (jumlah_belanja / 100000) dikali 5. 
+     * Selain dari itu, jenis_pelanggan akan didefinisikan sebagai "Gold", variabel "jumlah_poin" akan disimpan sebagai hasil dari (jumlah_belanja / 100000) dikali 7.
+
+8. Program akan menampilkan ringkasan transaksi dengan susunan: 
+    - "Jenis hari      : " lalu memanggil variabel jenis_hari.
+    - "Jenis pelanggan : " lalu memanggil variabel jenis_pelanggan.
+    - "Jumlah belanja  : Rp" lalu memanggil variabel jumlah_belanja.
+    - "Total poin      : " lalu memanggil variabel jumlah_poin.
+    Kemudian, program akan berhenti. */
+}
