@@ -88,7 +88,7 @@ Program ini memiliki alur penyelesaian (Algoritma) sebagai berikut.
    - Inisialisasi variabel "temp" dengan nilai dari variabel "kode_transaksi" dan "banyak_digit" dengan nilai 0.
    - Penyimpanan variabel kode_transaksi pada variabel temp ditujukan untuk mencegah perubahan angka pada variabel kode_transaksi yang akan digunakan utuk proses selanjutnya.
    - Struktur perulangan while akan dimulai ketika temp bernilai lebih dari 0, lalu variabel "banyak_digit" akan ditambah 1 selama perulangan dan temp akan dibagi dengan 10 selama perulangan.
-      * Syarat perulangan temp >= 100 digunakan karena bila jumlah digit dari kode parkir yang diinput sebanyak 10 digit, proses pembagian dengan 10 pada temp dalam struktur perulangan akan menyisakan dua digit paling depan di akhir. 
+      * Syarat perulangan temp > 0 digunakan karena bila jumlah digit dari kode parkir yang diinput sebanyak 10 digit, proses pembagian dengan 10 pada temp dalam struktur perulangan akan menghasilkan nilai 10 pada akhir perulangan. 
       * Pembagian dengan 10 dilakukan karena notasi angka yang digunakan adalah desimal (0 -9) sehingga jika temp masih dapat dibagi 10, ini menunjukkan terdapat digit yang tersisa
         dan akan ditambahkan pada variabel banyak_digit sehingga banyak digit dari kode_transaksi akan diperoleh.
 
